@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WishList.Data;
-
+using WishList.Models;
+using Microsoft.AspNetCore.Identity;
 namespace WishList
 {
     public class Startup
@@ -13,6 +14,7 @@ namespace WishList
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("Wishlist"));
         }
 
@@ -27,7 +29,7 @@ namespace WishList
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }
     }
